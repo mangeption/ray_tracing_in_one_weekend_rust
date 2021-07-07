@@ -13,16 +13,16 @@ impl Vec3 {
         Vec3 { e: [e0, e1, e2] }
     }
 
-    pub fn unit_vector(self) -> Vec3 {
+    pub fn unit_vector(&self) -> Vec3 {
         let l = self.length();
-        self / l
+        *self / l
     }
 
-    pub fn dot(v1: Vec3, v2: Vec3) -> f64 {
+    pub fn dot(v1: &Vec3, v2: &Vec3) -> f64 {
         v1.e[0] * v2.e[0] + v1.e[1] * v2.e[1] + v1.e[2] * v2.e[2]
     }
 
-    pub fn cross(u: Vec3, v: Vec3) -> Vec3 {
+    pub fn cross(u: &Vec3, v: &Vec3) -> Vec3 {
         Vec3 {
             e: [
                 u.e[1] * v.e[2] - u.e[2] * v.e[1],
