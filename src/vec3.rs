@@ -8,6 +8,8 @@ pub struct Vec3 {
 
 pub type Point3 = Vec3;
 
+const EPS: f64 = 1e-8;
+
 impl Vec3 {
     pub fn new(e0: f64, e1: f64, e2: f64) -> Self {
         Self { e: [e0, e1, e2] }
@@ -16,6 +18,14 @@ impl Vec3 {
     pub fn unit_vector(&self) -> Self {
         let l = self.length();
         *self / l
+    }
+
+    pub fn reflect(&self, n: &Self) -> Self {
+        *self - 2.0 * Self::dot(self, n) * *n
+    }
+
+    pub fn near_zero(&self) -> bool {
+        self.e[0].abs() < EPS && self.e[1].abs() < EPS && self.e[2].abs() < EPS
     }
 
     pub fn dot(v1: &Self, v2: &Self) -> f64 {
@@ -188,8 +198,6 @@ pub fn random_in_hemisphere(normal: &Vec3) -> Vec3 {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    const EPS: f64 = 0.000001;
 
     #[test]
     fn test_new_vec3() {
