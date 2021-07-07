@@ -12,8 +12,8 @@ use color::*;
 use hittable::*;
 use rand::prelude::*;
 use ray::Ray;
-use sphere::Sphere;
-use vec3::Point3;
+use sphere::*;
+use vec3::*;
 
 fn main() {
     // Image
@@ -21,6 +21,7 @@ fn main() {
     const IMAGE_WIDTH: i64 = 400;
     const IMAGE_HEIGHT: i64 = (IMAGE_WIDTH as f64 / ASPECT_RATIO) as i64;
     const SAMPLE_PER_PIXEL: i64 = 100;
+    const MAX_DEPTH: i64 = 50;
 
     // World
     let world = Box::new(HittableList {
@@ -45,20 +46,28 @@ fn main() {
                 let v = (((IMAGE_HEIGHT - j - 1) as f64) + rng.gen_range(0.0..1.0))
                     / (IMAGE_HEIGHT - 1) as f64;
                 let r = camera.get_ray(u, v);
-                color += ray_color(&r, &world);
+                color += ray_color(&r, &world, MAX_DEPTH);
             }
             color.write_color(SAMPLE_PER_PIXEL);
         }
     }
 }
 
-fn ray_color(r: &Ray, world: &Box<dyn Hittable>) -> Color {
-    match world.hit(r, 0.0, f64::MAX) {
-        Some(rec) => 0.5 * (rec.normal + Color::new(1.0, 1.0, 1.0)),
-        None => {
-            let unit_direction = r.direction.unit_vector();
-            let t = 0.5 * (unit_direction.y() + 1.0);
-            (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0)
-        }
+fn ray_color(r: &Ray, world: &Box<dyn Hittable>, depth: i64) -> Color {
+    if depth <= 0 {
+        return Color::new(0.0, 0.0, 0.0);
     }
+
+    if let Some(rec) = world.hit(r, 0.001, f64::MAX) {
+        return 0.5
+            * ray_color(
+                &Ray::new(rec.p, random_in_hemisphere(&rec.normal).unit_vector()),
+                &world,
+                depth - 1,
+            );
+    }
+
+    let unit_direction = r.direction.unit_vector();
+    let t = 0.5 * (unit_direction.y() + 1.0);
+    (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0)
 }
