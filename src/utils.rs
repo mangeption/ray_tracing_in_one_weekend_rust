@@ -1,3 +1,4 @@
 #[macro_use]
-mod asserts;
-mod geometry;
+pub mod asserts;
+pub mod geometry;
+pub mod nums;

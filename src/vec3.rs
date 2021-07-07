@@ -6,7 +6,6 @@ pub struct Vec3 {
 }
 
 pub type Point3 = Vec3;
-pub type Color = Vec3;
 
 impl Vec3 {
     pub fn new(e0: f64, e1: f64, e2: f64) -> Vec3 {
@@ -153,16 +152,6 @@ impl ops::DivAssign<f64> for Vec3 {
         *self = Self {
             e: [self.e[0] / t, self.e[1] / t, self.e[2] / t],
         }
-    }
-}
-
-impl Color {
-    pub fn write_color(&self) {
-        let x = (self.x() * 255.999) as i64;
-        let y = (self.y() * 255.999) as i64;
-        let z = (self.z() * 255.999) as i64;
-
-        println!("{:?} {:?} {:?}", x, y, z);
     }
 }
 
