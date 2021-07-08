@@ -11,7 +11,7 @@ mod vec3;
 use camera::Camera;
 use color::*;
 use hittable::*;
-use material::{lambertian::*, metal::*};
+use material::{dielectric::*, lambertian::*, metal::*};
 use rand::prelude::*;
 use ray::Ray;
 use sphere::*;
@@ -27,9 +27,9 @@ fn main() {
 
     // World
     let material_ground = Lambertian::new(Color::new(0.8, 0.8, 0.0));
-    let material_center = Lambertian::new(Color::new(0.7, 0.3, 0.3));
-    let material_left = Metal::new(Color::new(0.8, 0.8, 0.8), 0.3);
-    let material_right = Metal::new(Color::new(0.8, 0.6, 0.2), 1.0);
+    let material_center = Lambertian::new(Color::new(0.1, 0.2, 0.5));
+    let material_left = Dielectric::new(1.5);
+    let material_right = Metal::new(Color::new(0.8, 0.6, 0.2), 0.0);
     let world = HittableList {
         objects: vec![
             Box::new(Sphere::new(
@@ -45,6 +45,11 @@ fn main() {
             Box::new(Sphere::new(
                 Point3::new(-1.0, 0.0, -1.0),
                 0.5,
+                material_left,
+            )),
+            Box::new(Sphere::new(
+                Point3::new(-1.0, 0.0, -1.0),
+                -0.4,
                 material_left,
             )),
             Box::new(Sphere::new(

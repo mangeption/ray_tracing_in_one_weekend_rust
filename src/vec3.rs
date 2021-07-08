@@ -24,6 +24,15 @@ impl Vec3 {
         *self - 2.0 * Self::dot(self, n) * *n
     }
 
+    pub fn refract(&self, n: &Self, etai_over_etat: f64) -> Self {
+        let neg = -*self;
+        let x = Vec3::dot(&neg, n);
+        let cos_theta = if x < 1.0 { x } else { 1.0 };
+        let r_out_perp = etai_over_etat * (*self + cos_theta * *n);
+        let r_out_parallel = -(1.0 - r_out_perp.length_squared()).abs().sqrt() * *n;
+        r_out_perp + r_out_parallel
+    }
+
     pub fn near_zero(&self) -> bool {
         self.e[0].abs() < EPS && self.e[1].abs() < EPS && self.e[2].abs() < EPS
     }
