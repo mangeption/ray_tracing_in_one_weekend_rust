@@ -1,6 +1,6 @@
 use crate::color::*;
 use crate::material::*;
-use crate::vec3::*;
+use crate::utils::random::*;
 
 #[derive(Clone, Debug, Copy)]
 pub struct Lambertian {

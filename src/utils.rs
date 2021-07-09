@@ -2,3 +2,4 @@
 pub mod asserts;
 pub mod geometry;
 pub mod nums;
+pub mod random;

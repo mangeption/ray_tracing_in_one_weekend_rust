@@ -1,5 +1,6 @@
 use crate::color::*;
 use crate::material::*;
+use crate::utils::random::*;
 use crate::vec3::*;
 
 #[derive(Clone, Debug, Copy)]

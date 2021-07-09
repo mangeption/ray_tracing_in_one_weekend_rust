@@ -1,4 +1,3 @@
-use rand::prelude::*;
 use std::ops;
 
 #[derive(Clone, Copy, Debug)]
@@ -47,17 +46,6 @@ impl Vec3 {
                 u.e[1] * v.e[2] - u.e[2] * v.e[1],
                 u.e[2] * v.e[0] - u.e[0] * v.e[2],
                 u.e[0] * v.e[1] - u.e[1] * v.e[0],
-            ],
-        }
-    }
-
-    pub fn random(min: f64, max: f64) -> Self {
-        let mut rng = rand::thread_rng();
-        Self {
-            e: [
-                rng.gen_range(min..max),
-                rng.gen_range(min..max),
-                rng.gen_range(min..max),
             ],
         }
     }
@@ -183,24 +171,6 @@ impl ops::DivAssign<f64> for Vec3 {
         *self = Self {
             e: [self.e[0] / t, self.e[1] / t, self.e[2] / t],
         }
-    }
-}
-
-pub fn random_in_unit_sphere() -> Vec3 {
-    loop {
-        let p = Vec3::random(-1.0, 1.0);
-        if p.length_squared() < 1.0 {
-            return p;
-        }
-    }
-}
-
-pub fn random_in_hemisphere(normal: &Vec3) -> Vec3 {
-    let in_unit_sphere = random_in_unit_sphere();
-
-    match Vec3::dot(&in_unit_sphere, normal) > 0.0 {
-        true => in_unit_sphere,
-        false => -in_unit_sphere,
     }
 }
 
