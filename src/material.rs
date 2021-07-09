@@ -1,6 +1,6 @@
-use crate::color::*;
 use crate::hittable::*;
 use crate::ray::*;
+use crate::vec3::Color;
 
 pub mod dielectric;
 pub mod lambertian;

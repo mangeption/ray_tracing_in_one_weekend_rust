@@ -1,5 +1,5 @@
 #[macro_use]
 pub mod asserts;
-pub mod geometry;
+pub mod trigonometry;
 pub mod nums;
 pub mod random;

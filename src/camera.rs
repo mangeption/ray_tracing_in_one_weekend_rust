@@ -1,4 +1,4 @@
-use crate::utils::{geometry::*, random::*};
+use crate::utils::{trigonometry::*, random::*};
 use crate::vec3::*;
 use crate::Ray;
 

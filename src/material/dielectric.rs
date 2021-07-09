@@ -1,4 +1,3 @@
-use crate::color::*;
 use crate::material::*;
 use crate::vec3::*;
 use rand::prelude::*;
